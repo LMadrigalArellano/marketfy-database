@@ -1,0 +1,44 @@
+CREATE SCHEMA marketfy;
+USE marketfy;
+
+CREATE TABLE marketfy.USERS (
+	user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50),
+    bio VARCHAR(200),
+    email VARCHAR(200) NOT NULL,
+    areas_of_interest VARCHAR(300)
+);
+
+CREATE TABLE marketfy.PRODUCTS(
+	product_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR (100) NOT NULL,
+    price FLOAT NOT NULL,
+    image LONGBLOB,
+    description VARCHAR(200),
+    total_in_inventory INT NOT NULL,
+    status BOOLEAN NOT NULL
+);
+
+CREATE TABLE marketfy.ORDER_HISTORY(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    order_id INT,
+    order_date DATE NOT NULL,
+    user_id INT,
+    product_id INT
+);
+
+CREATE TABLE marketfy.WISHLIST(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    product_id INT,
+    product_quantity INT
+);
+
+ALTER TABLE marketfy.ORDER_HISTORY
+ADD FOREIGN KEY (USER_ID) REFERENCES marketfy.USERS(USER_ID),
+ADD FOREIGN KEY (PRODUCT_ID) REFERENCES marketfy.PRODUCTS(PRODUCT_ID);
+
+ALTER TABLE marketfy.WISHLIST
+	ADD FOREIGN KEY (USER_ID) REFERENCES marketfy.USERS(USER_ID),
+	ADD FOREIGN KEY (PRODUCT_ID) REFERENCES marketfy.PRODUCTS(PRODUCT_ID);
